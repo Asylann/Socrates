@@ -10,14 +10,16 @@ import (
 
 // ChatService handles conversation logic.
 type ChatService struct {
-	aiClient ai.AIClient
-	storage  storage.ChatStorage
+	aiClient     ai.AIClient
+	storage      storage.ChatStorage
+	systemPrompt string
 }
 
-func NewChatService(aiClient ai.AIClient, storage storage.ChatStorage) *ChatService {
+func NewChatService(aiClient ai.AIClient, storage storage.ChatStorage, systemPrompt string) *ChatService {
 	return &ChatService{
-		aiClient: aiClient,
-		storage:  storage,
+		aiClient:     aiClient,
+		storage:      storage,
+		systemPrompt: systemPrompt,
 	}
 }
 
@@ -34,6 +36,9 @@ func (cs *ChatService) ProcessMessage(ctx context.Context, userID int64, userMes
 		Content: userMessage,
 	}
 	messages = append(messages, userMsg)
+	if cs.systemPrompt != "" {
+		messages = append([]storage.Message{{Role: "system", Content: cs.systemPrompt}}, messages...)
+	}
 
 	if err := cs.storage.AppendMessage(ctx, userID, userMsg); err != nil {
 		return "", fmt.Errorf("failed to store user message: %w", err)

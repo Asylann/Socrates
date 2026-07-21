@@ -63,7 +63,7 @@ func main() {
 
 	chatStorage := storage.NewRedisChat(redisClient)
 
-	chatService := service.NewChatService(aiClient, chatStorage)
+	chatService := service.NewChatService(aiClient, chatStorage, config.SystemPrompt)
 
 	rateLimiter := ratelimit.NewManager(15 * time.Minute)
 

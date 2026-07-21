@@ -5,6 +5,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/Asylann/Socrates/internal/config"
 	"github.com/Asylann/Socrates/internal/storage"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -67,6 +68,7 @@ func TestProcessMessage_Success(t *testing.T) {
 	// Chat should return a response
 	expectedResponse := "I'm doing well, thank you!"
 	mockAI.On("Chat", ctx, []storage.Message{
+		{Role: "system", Content: config.DefaultSystemPrompt()},
 		{Role: "user", Content: userMessage},
 	}).Return(expectedResponse, nil)
 
@@ -77,7 +79,7 @@ func TestProcessMessage_Success(t *testing.T) {
 	}).Return(nil)
 
 	// Create service and test
-	service := NewChatService(mockAI, mockStorage)
+	service := NewChatService(mockAI, mockStorage, config.DefaultSystemPrompt())
 	response, err := service.ProcessMessage(ctx, userID, userMessage)
 
 	assert.NoError(t, err)
@@ -102,10 +104,10 @@ func TestProcessMessage_AIError(t *testing.T) {
 
 	// AI call fails
 	mockAI.On("Chat", ctx, mock.MatchedBy(func(msgs []storage.Message) bool {
-		return len(msgs) == 1 && msgs[0].Role == "user"
+		return len(msgs) == 2 && msgs[0].Role == "system" && msgs[1].Role == "user"
 	})).Return("", errors.New("ai service error"))
 
-	service := NewChatService(mockAI, mockStorage)
+	service := NewChatService(mockAI, mockStorage, config.DefaultSystemPrompt())
 	_, err := service.ProcessMessage(ctx, userID, userMessage)
 
 	assert.Error(t, err)
@@ -134,6 +136,7 @@ func TestProcessMessage_WithHistory(t *testing.T) {
 
 	expectedResponse := "You were asking about Go programming language."
 	mockAI.On("Chat", ctx, []storage.Message{
+		{Role: "system", Content: config.DefaultSystemPrompt()},
 		{Role: "user", Content: "What is Go?"},
 		{Role: "assistant", Content: "Go is a compiled language."},
 		{Role: "user", Content: userMessage},
@@ -144,7 +147,7 @@ func TestProcessMessage_WithHistory(t *testing.T) {
 		Content: expectedResponse,
 	}).Return(nil)
 
-	service := NewChatService(mockAI, mockStorage)
+	service := NewChatService(mockAI, mockStorage, config.DefaultSystemPrompt())
 	response, err := service.ProcessMessage(ctx, userID, userMessage)
 
 	assert.NoError(t, err)
@@ -164,7 +167,7 @@ func TestGetConversationHistory_Success(t *testing.T) {
 
 	mockStorage.On("GetMessages", ctx, userID, 20).Return(expectedMessages, nil)
 
-	service := NewChatService(nil, mockStorage)
+	service := NewChatService(nil, mockStorage, config.DefaultSystemPrompt())
 	messages, err := service.GetConversationHistory(ctx, userID)
 
 	assert.NoError(t, err)
@@ -178,7 +181,7 @@ func TestClearConversation_Success(t *testing.T) {
 	mockStorage := new(MockChatStorage)
 	mockStorage.On("ClearMessages", ctx, userID).Return(nil)
 
-	service := NewChatService(nil, mockStorage)
+	service := NewChatService(nil, mockStorage, config.DefaultSystemPrompt())
 	err := service.ClearConversation(ctx, userID)
 
 	assert.NoError(t, err)
@@ -192,7 +195,7 @@ func TestClearConversation_Error(t *testing.T) {
 	mockStorage := new(MockChatStorage)
 	mockStorage.On("ClearMessages", ctx, userID).Return(errors.New("redis error"))
 
-	service := NewChatService(nil, mockStorage)
+	service := NewChatService(nil, mockStorage, config.DefaultSystemPrompt())
 	err := service.ClearConversation(ctx, userID)
 
 	assert.Error(t, err)
