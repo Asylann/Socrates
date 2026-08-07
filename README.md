@@ -12,7 +12,7 @@ A production-readyy Telegram bot powered by OpenRouter AI with Redis-backed conv
 - **Clean Structure**: Modular project organization with separation of concerns
 
 ## Project Structure
-
+ddm/ml
 ```
 cmd/
  └── bo
