@@ -16,7 +16,7 @@ type Config struct {
 	RateLimitCapacity   int
 	RateLimitRefillRate float64
 	RateLimitCleanupTTL time.Duration
-	ShutdownTimeout     Duration
+ShutdownTimeout     time.Duration
 }
 
 func LoadFromEnv() *Config {
