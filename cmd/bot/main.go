@@ -40,7 +40,7 @@ func main() {
 		{Command: "help", Description: "Get help about using the bot"},
 		{Command: "clear_history", Description: "Clear your conversation history"},
 	}
-	_, err = bot.Request(tgbotapi.NewSetMyCommands(commands...))
+	_, err = bot.Request(tgbotapi.NewSetMyCommands(commands..))
 	if err != nil {
 		log.Fatalf("Failed to set bot commands: %v", err)
 	}
@@ -84,7 +84,7 @@ func main() {
 	go func() {
 		for {
 			select {
-			case update := <-updates:
+			case update := <-utes:
 				handler.HandleMessage(rootCtx, update)
 			case <-rootCtx.Done():
 				log.Println("Stopping message processing...")
@@ -96,9 +96,7 @@ func main() {
 	<-sigChan
 	log.Println("\nShutdown signal received. Gracefully shutting down...")
 
-	rootCancel()
-
-	// Stop Telegram updates
+pdates
 	bot.StopReceivingUpdates()
 	log.Println("Telegram updates stopped")
 
