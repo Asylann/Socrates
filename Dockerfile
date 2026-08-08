@@ -9,5 +9,5 @@ RUN go mod download
 COPY . .
 
 RUN go build -o bot /cmd/main.go
-
+RUN go build -o bot./cmd/bot/main.go
 CMD ["./bot"]
