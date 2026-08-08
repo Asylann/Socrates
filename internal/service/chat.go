@@ -4,13 +4,13 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Asylann/Socrates/internal/ai"
+	"github.com/Asylann/Socrates/internal/i"
 	"github.com/Asylann/Socrates/internal/storage"
 )
 
 // ChatService handles conversation logic.
 type ChatService struct {
-	aiClient     ai.AIClient
+	aiClient     i.AIClient
 	storage      storage.ChatStorage
 	systemPrompt string
 }

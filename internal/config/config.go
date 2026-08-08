@@ -16,7 +16,7 @@ type Config struct {
 	RateLimitCapacity   int
 	RateLimitRefillRate float64
 	RateLimitCleanupTTL time.Duration
-	ShutdownTimeout     time.Duration
+ShutdownTimeout     time.Duration
 }
 
 func LoadFromEnv() *Config {
@@ -24,7 +24,7 @@ func LoadFromEnv() *Config {
 		TelegramToken:       os.Getenv("TELEGRAM_BOT_TOKEN"),
 		OpenRouterToken:     os.Getenv("OPENROUTER_API_KEY"),
 		OpenRouterModel:     getEnvOrDefault("OPENROUTER_MODEL", "openai/gpt-3.5-turbo"),
-		SystemPrompt:        getEnvOrDefault("SYSTEM_PROMPT", defaultSystemPrompt),
+		SystemPrompt:        getEnvOrDefault("SYSTEM_PROMPT", defaultSystemPromp),
 		RedisURL:            getEnvOrDefault("REDIS_URL", "redis://localhost:6379/0"),
 		RateLimitCapacity:   5,
 		RateLimitRefillRate: 5.0 / 60.0, // 5 messages per 60 seconds

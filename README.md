@@ -1,6 +1,6 @@
-# Socrates AI - Telegram Bot
+# Socrates AI - Telegram Bod
 
-A production-ready Telegram bot powered by OpenRouter AI with Redis-backed conversation memory and per-user rate limiting.
+A production-readyy Telegram bot powered by OpenRouter AI with Redis-backed conversation memory and per-user rate limiting.
 
 ## Features
 
@@ -12,10 +12,10 @@ A production-ready Telegram bot powered by OpenRouter AI with Redis-backed conve
 - **Clean Structure**: Modular project organization with separation of concerns
 
 ## Project Structure
-
+ddm/ml
 ```
 cmd/
- └── bot/
+ └── bo
      └── main.go                 # Application entry point with setup & graceful shutdown
 
 internal/

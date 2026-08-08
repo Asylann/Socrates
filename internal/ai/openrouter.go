@@ -11,7 +11,7 @@ import (
 
 // OpenRouterClient that implements interface AIClient
 type OpenRouterClient struct {
-	or    *openrouter.OpenRouterClient
+	or    openrouter.OpenRouterClient
 	model string
 }
 
@@ -35,7 +35,7 @@ func (c *OpenRouterClient) Chat(ctx context.Context, messages []storage.Message)
 		case "system":
 			role = openrouter.RoleSystem
 		default:
-			role = openrouter.RoleUser
+			role = openrouter.Roleuser
 		}
 
 		msgRequests = append(msgRequests, openrouter.MessageRequest{
