@@ -4,10 +4,8 @@ A production-ready Telegram bot powered by OpenRouter AI with Redis-backed conve
 
 ## Features
 
-- **AI-Powered Responses**: Uses OpenRouter API with support for multiple LLM models
-- **Conversation Memory**: Redis-backed per-user chat context (last 20 messages)
-- **Rate Limiting**: In-memory token-bucket rate limiter per user (5 messages/minute)
-- **Graceful Shutdown**: Proper handling of SIGINT/SIGTERM with inflight request completion
+- **AI-Powered Respoken-bucket rate limiter per user (5 messages/minute)
+- **Graceful Shutdown**: PrSIGINT/SIGTERM with inflight request completion
 - **Testable Architecture**: Interface-based design with unit tests and Redis integration tests
 - **Clean Structure**: Modular project organization with separation of concerns
 
@@ -15,11 +13,11 @@ A production-ready Telegram bot powered by OpenRouter AI with Redis-backed conve
 
 ```
 cmd/
- └── bot/
-     └── main.go                 # Application entry point with setup & graceful shutdown
+ bot/
+     └── main.g                 # Application entry point with setup & graceful shutdown
 
 internal/
- ├── telegram/
+ telegram/
  │    └── handler.go            # Telegram message handler & routing
  ├── service/
  │    ├── chat.go              # Chat service with business logic
